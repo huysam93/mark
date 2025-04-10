@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Watermark kiểu Timemark</title>
+  <style>
+    /* Import font Big Shoulders Display và Open Sans từ Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700&family=Open+Sans:wght@400;600&display=swap');
+    
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    canvas {
+      max-width: 100%;
+      border: 1px solid #ddd;
+      margin: 15px 0;
+    }
+    button {
+      background-color: #f5c518;
+      border: none;
+      color: #333;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #e0b415;
+    }
+    input[type="file"] {
+      margin-bottom: 15px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .preview-font {
+      font-size: 48px;
+      margin: 20px 0;
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-weight: 700;
+      color: white;
+      padding: 10px 20px;
+      display: inline-block;
+    }
+    .address-preview {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 18px;
+      margin: 20px 0;
+      color: white;
+      padding: 10px 20px;
+      display: inline-block;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Timemark Watermark Generator</h2>
+  
+  <div>
+    <div class="preview-font">21:37</div>
+    <p>Font: Big Shoulders Display (Google Fonts)</p>
+    <div class="address-preview">1170 Hùng Vương, TT. Di Linh, H. Di Linh, Lâm Đồng</div>
+    <p>Font địa chỉ: Open Sans (Google Fonts)</p>
+  </div>
+  
+  <div class="controls">
+    <div>
+      <div class="form-group">
+        <label for="timeText">Thời gian (Ví dụ: 21:37):</label>
+        <input type="text" id="timeText" value="21:37">
+      </div>
+      
+      <div class="form-group">
+        <label for="dateText">Ngày tháng (Ví dụ: 01/01/2025):</label>
+        <input type="text" id="dateText" value="">
+      </div>
+    </div>
+    
+    <div>
+      <div class="form-group">
+        <label for="weekday">Thứ (Ví dụ: Thứ Năm):</label>
+        <input type="text" id="weekday" value="">
+      </div>
+      
+      <div class="form-group">
+        <label for="address">Địa chỉ:</label>
+        <input type="text" id="address" value="1170 Hùng Vương, TT. Di Linh, H. Di Linh, Lâm Đồng">
+      </div>
+    </div>
+  </div>
+  
+  <input type="file" id="upload" accept="image/*"><br>
+  <canvas id="canvas"></canvas>
+  
+  <div class="buttons">
+    <button onclick="applyWatermark()">Áp dụng watermark</button>
+    <button onclick="downloadImage()">Tải ảnh với watermark</button>
+  </div>
+
+  <script>
+    const upload = document.getElementById('upload');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let originalImage = null;
+    
+    // Các phần tử input
+    const timeTextInput = document.getElementById('timeText');
+    const dateTextInput = document.getElementById('dateText');
+    const weekdayInput = document.getElementById('weekday');
+    const addressInput = document.getElementById('address');
+    
+    // Đặt giá trị mặc định cho dateText và weekday
+    function setDefaultValues() {
+      const today = new Date();
+      const day = today.getDate().toString().padStart(2, '0');
+      const month = (today.getMonth() + 1).toString().padStart(2, '0');
+      const year = today.getFullYear();
+      const weekdays = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+      
+      dateTextInput.value = `${day}/${month}/${year}`;
+      weekdayInput.value = weekdays[today.getDay()];
+    }
+    
+    // Gọi hàm đặt giá trị mặc định khi trang được tải
+    setDefaultValues();
+    
+    // Đảm bảo fonts được tải
+    document.fonts.ready.then(function() {
+      console.log("Fonts loaded");
+    });
+    
+    upload.addEventListener('change', function() {
+      const file = upload.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        originalImage = new Image();
+        originalImage.onload = function() {
+          canvas.width = originalImage.width;
+          canvas.height = originalImage.height;
+          ctx.drawImage(originalImage, 0, 0);
+          applyWatermark();
+        };
+        originalImage.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+    
+    function applyWatermark() {
+      if (!originalImage) return;
+      
+      // Xóa canvas và vẽ lại ảnh gốc
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(originalImage, 0, 0);
+      
+      // Đợi fonts được tải trước khi vẽ watermark
+      if (document.fonts && document.fonts.check) {
+        Promise.all([
+          document.fonts.load('700 16px "Big Shoulders Display"'),
+          document.fonts.load('400 16px "Open Sans"')
+        ]).then(() => {
+          drawWatermark(originalImage.width, originalImage.height);
+        });
+      } else {
+        // Fallback cho trình duyệt không hỗ trợ Font Loading API
+        setTimeout(() => drawWatermark(originalImage.width, originalImage.height), 500);
+      }
+    }
+
+    function drawWatermark(width, height) {
+      // Lấy dữ liệu từ input
+      const timeText = timeTextInput.value || '21:37';
+      const dateText = dateTextInput.value;
+      const weekday = weekdayInput.value;
+      const address = addressInput.value;
+      
+      // Padding
+      const pad = 30;
+      
+      // Tính font sizes dựa vào width của ảnh
+      const timeFontSize = Math.round(width * 0.075); // Kích thước cho font to
+      const dateFontSize = Math.round(width * 0.02);
+      const addressFontSize = Math.round(width * 0.020);
+      const logoFontSize = Math.round(width * 0.019);
+      const subtitleFontSize = Math.round(width * 0.011);
+      
+      // Time (giờ:phút) - Sử dụng font Big Shoulders Display
+      ctx.font = `700 ${timeFontSize}px "Big Shoulders Display", sans-serif`;
+      ctx.fillStyle = "white";
+      ctx.textAlign = "left";
+      
+      // Tính chiều cao gần đúng của timeText dựa trên fontSize
+      const timeTextHeight = timeFontSize * 0.75;
+      
+      // Vị trí y cho timeText (cạnh dưới)
+      const timeTextBaseline = height - pad - 60;
+      
+      // Cạnh trên của timeText
+      const timeTextTop = timeTextBaseline - timeTextHeight;
+      
+      // Vẽ timeText
+      ctx.fillText(timeText, pad, timeTextBaseline);
+      
+      // Vẽ đường sọc vàng
+      const timeTextWidth = ctx.measureText(timeText).width;
+      const stripeWidth = 4;
+      const stripeHeight = timeTextHeight;
+      const stripeX = pad + timeTextWidth + 20;
+      const stripeY = timeTextTop;
+      
+      ctx.fillStyle = "#f5c518"; // Màu vàng
+      ctx.fillRect(stripeX, stripeY, stripeWidth, stripeHeight);
+      
+      // Ngày + thứ - ở bên phải của đường sọc vàng
+      ctx.font = `${dateFontSize}px Segoe UI`;
+      ctx.fillStyle = "white";
+      ctx.textAlign = "left";
+      
+      const dateTextX = stripeX + stripeWidth + 20;
+      
+      // FIX 1: Đặt cạnh trên của dateText trùng với cạnh trên của timeText
+      // Thêm một offset nhỏ để điều chỉnh vị trí chính xác hơn
+      const dateTextY = timeTextTop + dateFontSize * 0.8; // Điều chỉnh hệ số này để căn chỉnh chính xác
+      
+      // Khoảng cách giữa dateText và weekday
+      const dateDateLineHeight = dateFontSize * 1.5;
+      
+      // Vị trí của weekday, cách dateText một khoảng bằng lineHeight
+      const weekdayY = dateTextY + dateDateLineHeight;
+      
+      ctx.fillText(dateText, dateTextX, dateTextY);
+      ctx.fillText(weekday, dateTextX, weekdayY);
+      
+      // Địa chỉ - Sử dụng font Open Sans
+      ctx.font = `400 ${addressFontSize}px "Open Sans", sans-serif`;
+      ctx.textAlign = "left";
+      ctx.fillStyle = "white";
+      ctx.fillText(address, pad, height - pad);
+      
+      // FIX 2: Logo góc phải - khắc phục lỗi chữ Time và mark đè lên nhau
+      const logoText1 = "Time";
+      const logoText2 = "mark";
+      ctx.textAlign = "right";
+      ctx.font = `600 ${logoFontSize}px Segoe UI`;
+      
+      // Tính toán chiều rộng của chữ "Time" và "mark"
+      const timeWidth = ctx.measureText(logoText1).width;
+      const markWidth = ctx.measureText(logoText2).width;
+      
+      // Vẽ "Time" (màu vàng)
+      ctx.fillStyle = "#f5c518";
+      const timeX = width - pad - markWidth - 5; // Trừ thêm 5px làm khoảng cách
+      ctx.fillText(logoText1, timeX, height - pad + 5);
+      
+      // Vẽ "mark" (màu trắng)
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(logoText2, width - pad, height - pad + 5);
+      
+      // Phụ đề nhỏ
+      ctx.font = `400 ${subtitleFontSize}px Segoe UI`;
+      ctx.fillStyle = "#fff";
+      ctx.fillText("Ngày giờ chân thực", width - pad, height - pad + 20);
+    }
+
+    function downloadImage() {
+      if (!originalImage) {
+        alert("Vui lòng tải lên một hình ảnh trước!");
+        return;
+      }
+      
+      const link = document.createElement('a');
+      link.download = 'timemark_style_image.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+  </script>
+</body>
+</html>
