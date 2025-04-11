@@ -5,7 +5,7 @@
   <title>Watermark kiểu Timemark</title>
   <style>
     /* Import font Big Shoulders Display và Open Sans từ Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700&family=Open+Sans:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600&family=Open+Sans:wght@400;600&display=swap');
     
     body {
       font-family: Arial, sans-serif;
@@ -34,7 +34,7 @@
     input[type="file"] {
       margin-bottom: 15px;
     }
-    input[type="text"] {
+    input[type="text"], input[type="number"] {
       padding: 8px;
       margin-bottom: 10px;
       border: 1px solid #ddd;
@@ -54,10 +54,11 @@
       font-size: 48px;
       margin: 20px 0;
       font-family: 'Big Shoulders Display', sans-serif;
-      font-weight: 700;
+      font-weight: 600;
       color: white;
       padding: 10px 20px;
       display: inline-block;
+      background-color: #333;
     }
     .address-preview {
       font-family: 'Open Sans', sans-serif;
@@ -66,6 +67,7 @@
       color: white;
       padding: 10px 20px;
       display: inline-block;
+      background-color: #333;
     }
     .controls {
       display: grid;
@@ -75,6 +77,18 @@
     }
     .buttons {
       margin-top: 20px;
+    }
+    .adjustment-controls {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border: 1px solid #eee;
+    }
+    .adjustment-controls h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #333;
     }
   </style>
 </head>
@@ -108,8 +122,120 @@
       </div>
       
       <div class="form-group">
-        <label for="address">Địa chỉ:</label>
-        <input type="text" id="address" value="1170 Hùng Vương, TT. Di Linh, H. Di Linh, Lâm Đồng">
+        <label for="address">Địa chỉ dòng 1:</label>
+        <input type="text" id="address" value="1170 Hùng Vương, TT. Di Linh, H. Di Linh">
+      </div>
+      
+      <div class="form-group">
+        <label for="subAddress">Địa chỉ dòng 2:</label>
+        <input type="text" id="subAddress" value="Lâm Đồng">
+      </div>
+    </div>
+  </div>
+  
+  <div class="adjustment-controls">
+    <h3>Điều chỉnh vị trí lên xuống</h3>
+    <div class="controls">
+      <div>
+        <div class="form-group">
+          <label for="dichCaCumNgayGio">Dịch nguyên cụm ngày giờ (px):</label>
+          <input type="number" id="dichCaCumNgayGio" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label for="canhDuoi">Dịch cạnh dưới (thứ) (px):</label>
+          <input type="number" id="canhDuoi" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label for="dichDiaChi">Dịch địa chỉ (px):</label>
+          <input type="number" id="dichDiaChi" value="0">
+        </div>
+      </div>
+      
+      <div>
+        <div class="form-group">
+          <label for="dichTimeMark">Dịch TimeMark (px):</label>
+          <input type="number" id="dichTimeMark" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label for="dichNgayGioThat">Dịch "Ngày giờ chân thực" (px):</label>
+          <input type="number" id="dichNgayGioThat" value="0">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="adjustment-controls">
+    <h3>Điều chỉnh vị trí trái phải</h3>
+    <div class="controls">
+      <div>
+        <div class="form-group">
+          <label for="dichTraiPhaiTimeText">Dịch thời gian (px):</label>
+          <input type="number" id="dichTraiPhaiTimeText" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label for="dichTraiPhaiStripe">Dịch thanh sọc vàng (px):</label>
+          <input type="number" id="dichTraiPhaiStripe" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label for="dichTraiPhaiDateWeekday">Dịch ngày & thứ (px):</label>
+          <input type="number" id="dichTraiPhaiDateWeekday" value="0">
+        </div>
+      </div>
+      
+      <div>
+        <div class="form-group">
+          <label for="dichTraiPhaiAddress">Dịch địa chỉ (px):</label>
+          <input type="number" id="dichTraiPhaiAddress" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label for="dichTraiPhaiTimeMark">Dịch TimeMark (px):</label>
+          <input type="number" id="dichTraiPhaiTimeMark" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label for="khoangCachStripeDate">Khoảng cách sọc vàng & ngày (px):</label>
+          <input type="number" id="khoangCachStripeDate" value="20">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="adjustment-controls">
+    <h3>Điều chỉnh kích thước font chữ</h3>
+    <div class="controls">
+      <div>
+        <div class="form-group">
+          <label for="fontSizeFactorTime">Tỉ lệ font chữ thời gian:</label>
+          <input type="number" id="fontSizeFactorTime" value="0.07" step="0.01" min="0.01">
+        </div>
+        
+        <div class="form-group">
+          <label for="fontSizeFactorDate">Tỉ lệ font chữ ngày & thứ:</label>
+          <input type="number" id="fontSizeFactorDate" value="0.02" step="0.005" min="0.005">
+        </div>
+      </div>
+      
+      <div>
+        <div class="form-group">
+          <label for="fontSizeFactorAddress">Tỉ lệ font chữ địa chỉ:</label>
+          <input type="number" id="fontSizeFactorAddress" value="0.02" step="0.005" min="0.005">
+        </div>
+        
+        <div class="form-group">
+          <label for="fontSizeFactorTimemark">Tỉ lệ font chữ TimeMark:</label>
+          <input type="number" id="fontSizeFactorTimemark" value="0.019" step="0.005" min="0.005">
+        </div>
+        
+        <div class="form-group">
+          <label for="fontSizeFactorSubtitle">Tỉ lệ font chữ phụ đề:</label>
+          <input type="number" id="fontSizeFactorSubtitle" value="0.011" step="0.002" min="0.002">
+        </div>
       </div>
     </div>
   </div>
@@ -133,6 +259,29 @@
     const dateTextInput = document.getElementById('dateText');
     const weekdayInput = document.getElementById('weekday');
     const addressInput = document.getElementById('address');
+    const subAddressInput = document.getElementById('subAddress');
+    
+    // Các phần tử điều chỉnh vị trí lên xuống
+    const dichCaCumNgayGioInput = document.getElementById('dichCaCumNgayGio');
+    const canhDuoiInput = document.getElementById('canhDuoi');
+    const dichDiaChiInput = document.getElementById('dichDiaChi');
+    const dichTimeMarkInput = document.getElementById('dichTimeMark');
+    const dichNgayGioThatInput = document.getElementById('dichNgayGioThat');
+    
+    // Các phần tử điều chỉnh vị trí trái phải
+    const dichTraiPhaiTimeTextInput = document.getElementById('dichTraiPhaiTimeText');
+    const dichTraiPhaiStripeInput = document.getElementById('dichTraiPhaiStripe');
+    const dichTraiPhaiDateWeekdayInput = document.getElementById('dichTraiPhaiDateWeekday');
+    const dichTraiPhaiAddressInput = document.getElementById('dichTraiPhaiAddress');
+    const dichTraiPhaiTimeMarkInput = document.getElementById('dichTraiPhaiTimeMark');
+    const khoangCachStripeDateInput = document.getElementById('khoangCachStripeDate');
+    
+    // Các phần tử điều chỉnh kích thước font chữ
+    const fontSizeFactorTimeInput = document.getElementById('fontSizeFactorTime');
+    const fontSizeFactorDateInput = document.getElementById('fontSizeFactorDate');
+    const fontSizeFactorAddressInput = document.getElementById('fontSizeFactorAddress');
+    const fontSizeFactorTimemarkInput = document.getElementById('fontSizeFactorTimemark');
+    const fontSizeFactorSubtitleInput = document.getElementById('fontSizeFactorSubtitle');
     
     // Đặt giá trị mặc định cho dateText và weekday
     function setDefaultValues() {
@@ -181,7 +330,7 @@
       // Đợi fonts được tải trước khi vẽ watermark
       if (document.fonts && document.fonts.check) {
         Promise.all([
-          document.fonts.load('700 16px "Big Shoulders Display"'),
+          document.fonts.load('600 16px "Big Shoulders Display"'),
           document.fonts.load('400 16px "Open Sans"')
         ]).then(() => {
           drawWatermark(originalImage.width, originalImage.height);
@@ -198,19 +347,42 @@
       const dateText = dateTextInput.value;
       const weekday = weekdayInput.value;
       const address = addressInput.value;
+      const subAddress = subAddressInput.value;
+      
+      // Lấy các giá trị điều chỉnh vị trí lên xuống
+      const dichCaCumNgayGio = parseInt(dichCaCumNgayGioInput.value) || 0;
+      const canhDuoi = parseInt(canhDuoiInput.value) || 0;
+      const dichDiaChi = parseInt(dichDiaChiInput.value) || 0;
+      const dichTimeMark = parseInt(dichTimeMarkInput.value) || 0;
+      const dichNgayGioThat = parseInt(dichNgayGioThatInput.value) || 0;
+      
+      // Lấy các giá trị điều chỉnh vị trí trái phải
+      const dichTraiPhaiTimeText = parseInt(dichTraiPhaiTimeTextInput.value) || 0;
+      const dichTraiPhaiStripe = parseInt(dichTraiPhaiStripeInput.value) || 0;
+      const dichTraiPhaiDateWeekday = parseInt(dichTraiPhaiDateWeekdayInput.value) || 0;
+      const dichTraiPhaiAddress = parseInt(dichTraiPhaiAddressInput.value) || 0;
+      const dichTraiPhaiTimeMark = parseInt(dichTraiPhaiTimeMarkInput.value) || 0;
+      const khoangCachStripeDate = parseInt(khoangCachStripeDateInput.value) || 20;
+      
+      // Lấy các giá trị điều chỉnh kích thước font chữ
+      const fontSizeFactorTime = parseFloat(fontSizeFactorTimeInput.value) || 0.07;
+      const fontSizeFactorDate = parseFloat(fontSizeFactorDateInput.value) || 0.02;
+      const fontSizeFactorAddress = parseFloat(fontSizeFactorAddressInput.value) || 0.02;
+      const fontSizeFactorTimemark = parseFloat(fontSizeFactorTimemarkInput.value) || 0.019;
+      const fontSizeFactorSubtitle = parseFloat(fontSizeFactorSubtitleInput.value) || 0.011;
       
       // Padding
       const pad = 30;
       
-      // Tính font sizes dựa vào width của ảnh
-      const timeFontSize = Math.round(width * 0.075); // Kích thước cho font to
-      const dateFontSize = Math.round(width * 0.02);
-      const addressFontSize = Math.round(width * 0.020);
-      const logoFontSize = Math.round(width * 0.019);
-      const subtitleFontSize = Math.round(width * 0.011);
+      // Tính font sizes dựa vào width của ảnh và tỉ lệ tùy chỉnh
+      const timeFontSize = Math.round(width * fontSizeFactorTime);
+      const dateFontSize = Math.round(width * fontSizeFactorDate);
+      const addressFontSize = Math.round(width * fontSizeFactorAddress);
+      const logoFontSize = Math.round(width * fontSizeFactorTimemark);
+      const subtitleFontSize = Math.round(width * fontSizeFactorSubtitle);
       
       // Time (giờ:phút) - Sử dụng font Big Shoulders Display
-      ctx.font = `700 ${timeFontSize}px "Big Shoulders Display", sans-serif`;
+      ctx.font = `600 ${timeFontSize}px "Big Shoulders Display", sans-serif`;
       ctx.fillStyle = "white";
       ctx.textAlign = "left";
       
@@ -223,46 +395,50 @@
       // Cạnh trên của timeText
       const timeTextTop = timeTextBaseline - timeTextHeight;
       
-      // Vẽ timeText
-      ctx.fillText(timeText, pad, timeTextBaseline);
+      // Vẽ timeText - Áp dụng dichCaCumNgayGio và dichTraiPhaiTimeText
+      ctx.fillText(timeText, pad + dichTraiPhaiTimeText, timeTextBaseline - dichCaCumNgayGio);
       
-      // Vẽ đường sọc vàng
+      // Vẽ đường sọc vàng - Áp dụng dichCaCumNgayGio và điều chỉnh vị trí riêng cho sọc
       const timeTextWidth = ctx.measureText(timeText).width;
       const stripeWidth = 4;
       const stripeHeight = timeTextHeight;
-      const stripeX = pad + timeTextWidth + 20;
+      const stripeX = pad + timeTextWidth + 20 + dichTraiPhaiTimeText + dichTraiPhaiStripe;
       const stripeY = timeTextTop;
       
       ctx.fillStyle = "#f5c518"; // Màu vàng
-      ctx.fillRect(stripeX, stripeY, stripeWidth, stripeHeight);
+      ctx.fillRect(stripeX, stripeY - dichCaCumNgayGio, stripeWidth, stripeHeight);
       
       // Ngày + thứ - ở bên phải của đường sọc vàng
       ctx.font = `${dateFontSize}px Segoe UI`;
       ctx.fillStyle = "white";
       ctx.textAlign = "left";
       
-      const dateTextX = stripeX + stripeWidth + 20;
+      const dateTextX = stripeX + stripeWidth + khoangCachStripeDate + dichTraiPhaiDateWeekday;
       
-      // FIX 1: Đặt cạnh trên của dateText trùng với cạnh trên của timeText
-      // Thêm một offset nhỏ để điều chỉnh vị trí chính xác hơn
+      // Đặt cạnh trên của dateText trùng với cạnh trên của timeText
       const dateTextY = timeTextTop + dateFontSize * 0.8; // Điều chỉnh hệ số này để căn chỉnh chính xác
       
-      // Khoảng cách giữa dateText và weekday
-      const dateDateLineHeight = dateFontSize * 1.5;
+      // Cạnh dưới của weekday trùng với cạnh dưới của timeText - Áp dụng thêm canhDuoi
+      const weekdayY = timeTextBaseline + canhDuoi;
       
-      // Vị trí của weekday, cách dateText một khoảng bằng lineHeight
-      const weekdayY = dateTextY + dateDateLineHeight;
+      // Vẽ dateText và weekday - Áp dụng dichCaCumNgayGio và dichTraiPhaiDateWeekday
+      ctx.fillText(dateText, dateTextX, dateTextY - dichCaCumNgayGio);
+      ctx.fillText(weekday, dateTextX, weekdayY - dichCaCumNgayGio);
       
-      ctx.fillText(dateText, dateTextX, dateTextY);
-      ctx.fillText(weekday, dateTextX, weekdayY);
-      
-      // Địa chỉ - Sử dụng font Open Sans
+      // Địa chỉ - Sử dụng font Open Sans - Áp dụng dichDiaChi và dichTraiPhaiAddress
       ctx.font = `400 ${addressFontSize}px "Open Sans", sans-serif`;
       ctx.textAlign = "left";
       ctx.fillStyle = "white";
-      ctx.fillText(address, pad, height - pad);
       
-      // FIX 2: Logo góc phải - khắc phục lỗi chữ Time và mark đè lên nhau
+      // Vẽ dòng địa chỉ 1
+      ctx.fillText(address, pad + dichTraiPhaiAddress, height - pad - dichDiaChi);
+      
+      // Vẽ dòng địa chỉ 2 nếu có
+      if (subAddress) {
+        ctx.fillText(subAddress, pad + dichTraiPhaiAddress, height - pad + addressFontSize * 1.2 - dichDiaChi);
+      }
+      
+      // Logo góc phải - Áp dụng dichTimeMark và dichTraiPhaiTimeMark
       const logoText1 = "Time";
       const logoText2 = "mark";
       ctx.textAlign = "right";
@@ -272,19 +448,19 @@
       const timeWidth = ctx.measureText(logoText1).width;
       const markWidth = ctx.measureText(logoText2).width;
       
-      // Vẽ "Time" (màu vàng)
+      // Vẽ "Time" (màu vàng) - Áp dụng dichTimeMark và dichTraiPhaiTimeMark
       ctx.fillStyle = "#f5c518";
-      const timeX = width - pad - markWidth - 5; // Trừ thêm 5px làm khoảng cách
-      ctx.fillText(logoText1, timeX, height - pad + 5);
+      const timeX = width - pad - markWidth + 14 - dichTraiPhaiTimeMark;
+      ctx.fillText(logoText1, timeX, height - pad - dichTimeMark);
       
-      // Vẽ "mark" (màu trắng)
+      // Vẽ "mark" (màu trắng) - Áp dụng dichTimeMark và dichTraiPhaiTimeMark
       ctx.fillStyle = "#ffffff";
-      ctx.fillText(logoText2, width - pad, height - pad + 5);
+      ctx.fillText(logoText2, width - pad + 15 - dichTraiPhaiTimeMark, height - pad - dichTimeMark);
       
-      // Phụ đề nhỏ
+      // Phụ đề nhỏ - Áp dụng dichNgayGioThat và dichTraiPhaiTimeMark
       ctx.font = `400 ${subtitleFontSize}px Segoe UI`;
       ctx.fillStyle = "#fff";
-      ctx.fillText("Ngày giờ chân thực", width - pad, height - pad + 20);
+      ctx.fillText("Ngày giờ chân thực", width - pad + 15 - dichTraiPhaiTimeMark, height - pad + 20 - dichNgayGioThat);
     }
 
     function downloadImage() {
